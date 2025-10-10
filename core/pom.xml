@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+            
     <artifactId>graphhopper-core</artifactId>
     <name>GraphHopper Core</name>
     <version>11.0-SNAPSHOT</version>
@@ -10,29 +10,25 @@
     <description>
         GraphHopper is a fast and memory efficient Java road routing engine
         working seamlessly with OpenStreetMap data.
-    </description>
+    </description>   
     <parent>
         <groupId>com.graphhopper</groupId>
         <artifactId>graphhopper-parent</artifactId>
         <version>11.0-SNAPSHOT</version>
     </parent>
-
+            
     <properties>
         <netbeans.hint.license>apache20</netbeans.hint.license>
-        <!-- Make sure that we use the same format as for Helper.createFormatter.
-             We cannot force the UTC TimeZone so it will just throw away the local offset or is this
-             fixed due to https://issues.apache.org/jira/browse/MNG-5647 ?
-        -->
         <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss'Z'</maven.build.timestamp.format>
         <builddate>${maven.build.timestamp}</builddate>
-    </properties>
+    </properties>   
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
             <comments>A business-friendly OSS license</comments>
-        </license>
+        </license>   
     </licenses>
     <dependencies>
         <dependency>
@@ -55,8 +51,8 @@
         </dependency>
         <!-- Jackson -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId> 
+        <artifactId>jackson-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -70,7 +66,7 @@
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
         </dependency>
-        <!-- for using CGIAR: elevation data importing via tif files-->
+            
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>xmlgraphics-commons</artifactId>
@@ -85,8 +81,8 @@
         <dependency>
             <groupId>de.westnordost</groupId>
             <artifactId>osm-legal-default-speeds-jvm</artifactId>
-            <version>1.4</version>
-            <!-- to avoid problems force older but same kotlin like we use for client-hc -->
+                    <version>1.4</version>
+        
             <exclusions>
                 <exclusion>
                     <groupId>org.jetbrains.kotlin</groupId>
@@ -98,14 +94,19 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- use same kotlin version as okhttp uses in client-hc -->
+        
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
+            <artifactId>kotlin-stdlib</artifactId>   
             <version>1.6.20</version>
         </dependency>
-
-        <dependency>
+<dependency>
+  <groupId>com.github.javafaker</groupId>
+  <artifactId>javafaker</artifactId>
+  <version>1.0.2</version>
+  <scope>test</scope>
+</dependency>
+          <dependency>
             <groupId>org.openstreetmap.osmosis</groupId>
             <artifactId>osmosis-osm-binary</artifactId>
             <version>0.48.3</version>
@@ -119,12 +120,79 @@
             <artifactId>logback-classic</artifactId>
             <scope>test</scope>
         </dependency>
+        
+<dependency>
+  <groupId>com.github.javafaker</groupId>
+  <artifactId>javafaker</artifactId> 
+  <version>1.0.2</version>
+  <scope>test</scope>
+</dependency>
+  
     </dependencies>
-
-    <build>
+  
+    <build>  
         <pluginManagement>
             <plugins>
-                <!-- create jar with test classes to be reused in other projects -->
+                <plugin>
+  <groupId>org.pitest</groupId>
+   <artifactId>pitest-maven</artifactId>
+  <version>1.20.6</version>
+            
+            
+  <dependencies>
+    <dependency>
+      <groupId>org.pitest</groupId>
+      <artifactId>pitest-junit5-plugin</artifactId>
+      <version>1.2.1</version>
+    </dependency>   
+  </dependencies>
+            
+ <configuration>
+        
+   <testPlugin>junit5</testPlugin>
+
+    <targetClasses>
+      <param>com.graphhopper.util.*</param>
+      <param>com.graphhopper.coll.*</param>
+    </targetClasses> 
+    <targetTests>
+      <param>com.graphhopper.util.*</param>
+      <param>com.graphhopper.coll.*</param>
+    </targetTests>
+    
+        
+    <threads>4</threads>
+    <outputFormats>
+      <param>HTML</param>
+    <param>XML</param>
+    </outputFormats>
+  </configuration>
+</plugin>   
+<plugin>
+  <groupId>org.pitest</groupId>
+  <artifactId>pitest-maven</artifactId>
+  <version>1.20.6</version>
+  <dependencies>
+    <dependency>   
+      <groupId>org.pitest</groupId>
+      <artifactId>pitest-junit5-plugin</artifactId>
+      <version>1.2.1</version>
+    </dependency>
+  </dependencies>
+  <configuration>
+    <testPlugin>junit5</testPlugin>
+    <targetClasses>
+      <param>com.graphhopper.util.DistanceCalcEarth</param>
+      <param>com.graphhopper.util.ArrayUtil</param>
+      <param>com.graphhopper.coll.MinHeapWithUpdate</param>
+    </targetClasses>
+    <outputFormats>
+      <param>HTML</param><param>XML</param>
+    </outputFormats>
+    <threads>4</threads>
+  </configuration>
+</plugin>
+    
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -137,7 +205,7 @@
                         </execution>
                     </executions>
                 </plugin>
-
+    
                 <plugin>
                     <groupId>pl.project13.maven</groupId>
                     <artifactId>git-commit-id-plugin</artifactId>
@@ -145,32 +213,32 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-
-        <plugins>
+    
+        <plugins>  
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>revision</goal>
+                        <goal>revision</goal>
                         </goals>
                     </execution>
                 </executions>
-
-                <configuration>
+                    
+                <configuration> 
                     <dotGitDirectory>${parent.basedir}/.git</dotGitDirectory>
                     <failOnNoGitDirectory>false</failOnNoGitDirectory>
                     <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
                 </configuration>
             </plugin>
         </plugins>
-
+                
         <!-- make version available at runtime via version file -->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
+                <filtering>true</filtering> 
                 <includes>
                     <include>**/version</include>
                     <include>**/builddate</include>
@@ -182,10 +250,14 @@
                 <filtering>false</filtering>
                 <excludes>
                     <exclude>**/version</exclude>
-                    <exclude>**/builddate</exclude>
+                                      <exclude>**/builddate</exclude>
                     <exclude>**/gitinfo</exclude>
                 </excludes>
             </resource>
         </resources>
     </build>
 </project>
+
+
+
+      
