@@ -261,5 +261,27 @@
       </resource>
     </resources>
   </build>
+<profiles>
+  <profile>
+    <id>tache2</id>
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.2.5</version>
+          <configuration>
+            <includes>
+              <include>*ExtraTest</include>
+              <include>*MutantsTest</include>
+              <include>*CoverageTest</include>
+              <include>ArrayUtilFakerTest</include>
+            </includes>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+  </profile>
+</profiles>
 </project>
 
